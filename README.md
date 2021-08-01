@@ -2,9 +2,13 @@
 
 ## MODULOS DEL PROGRAMA
 Estructuras de datos (definiciones de funciones)
+
 Utils (funciones varias utiles para diferentes archivos)
+
 Agenda (funciones para manejar una agenda)
+
 Parser (Crea el bucle interactivo del programa)
+
 Test (casos de prueba de todas las funciones principales)
 
 ## ESTRUCTURAS DE DATOS USADAS
@@ -33,7 +37,9 @@ Lo resolvi creando una estructura principal (tabla hash) con arboles avl auxilia
 
 ## COMPILACION E INVOCACION DEL PROGRAMA
 Ejecutar make para compilarlo.
+
 Ejecutar bin/proyecto para invocarlo.
+
 Ejecutar make test para usar valgrind.
 
 
