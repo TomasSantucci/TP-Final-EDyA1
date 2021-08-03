@@ -198,6 +198,7 @@ static AVL_Nodo *avl_nodo_eliminar(AVL_Nodo * arbol, void *dato,
         AVL_Nodo *aux = arbol;
         if (padre != arbol) {
           arbol = padre->izq;
+          padre->altura = 1 + avl_nodo_max_altura_hijos(padre);
           padre->izq = arbol->der;
 
           arbol->der = aux->der;
