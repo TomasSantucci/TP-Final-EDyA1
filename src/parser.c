@@ -76,7 +76,10 @@ static void obtener_nom_y_ap(char *nombre, char *apellido) {
 static void and_or(Agenda agenda, char *nombre, char *apellido, char *ed, unsigned edad, char *tel, void (*function)(Agenda, char*, char*, int, char*)) {
   printf
       ("(Si desea dejar un atributo vacio, presione 'Enter' cuando corresponda).\n");
-  obtener_nom_y_ap(nombre, apellido);
+  printf("Ingrese nombre:\n>");
+  leer_dato(nombre, isalpha_or_space);
+  printf("Ingrese apellido:\n>");
+  leer_dato(apellido, isalpha_or_space); 
   printf("Ingrese edad:\n>");
   leer_dato(ed, isdigit);
   if (!(strcmp(ed, "")))
