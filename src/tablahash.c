@@ -72,9 +72,7 @@ void tablahash_insertar(TablaHash tabla, void *dato) {
   GList lista = tabla->elems[idx].lista;
   void *existe = glist_encontrar(lista, dato, tabla->comp);
 
-  if (existe) {
-    puts("El dato ya existia, no se permite sobreescribir");
-  } else {
+  if (!existe) {
     // Agrego el dato
     tabla->numElems++;
     tabla->elems[idx].lista = glist_agregar_inicio(lista, dato, tabla->copia);
