@@ -6,8 +6,6 @@
 #include "../head/utils.h"
 #include "../head/agenda.h"
 #include "../head/contacto.h"
-#define LARGO_ATRIBUTO 30
-#define LARGO_RUTA 100
 
 // Compara una cadena y devuelve un numero correspondiente.
 static int orden(char *str) {
@@ -47,11 +45,11 @@ static int leer_edad() {
 
 // Lee una cadena cuyos caracteres estan validados por una funcion dada.
 static void leer_dato(char *cad, int (*validar) (int)) {
-  leer_cadena(cad, LARGO_ATRIBUTO, stdin);
+  leer_cadena(cad, 30, stdin);
   int valido = cadena_homo(cad, validar);
   while (!valido) {
     puts("Cadena invalida, devuelta... ");
-    leer_cadena(cad, LARGO_ATRIBUTO, stdin);
+    leer_cadena(cad, 30, stdin);
     valido = cadena_homo(cad, validar);
   }
 }
@@ -64,31 +62,6 @@ static void leer_dato_no_vacio(char *cad, int (*validar) (int)) {
     printf("El dato no puede ser vacio.\n>");
     leer_dato(cad,validar);
   }
-}
-
-static void obtener_nom_y_ap(char *nombre, char *apellido) {
-  printf("Ingrese nombre:\n>");
-  leer_dato_no_vacio(nombre, isalpha_or_space);
-  printf("Ingrese apellido:\n>");
-  leer_dato_no_vacio(apellido, isalpha_or_space);  
-}
-
-static void and_or(Agenda agenda, char *nombre, char *apellido, char *ed, unsigned edad, char *tel, void (*function)(Agenda, char*, char*, int, char*)) {
-  printf
-      ("(Si desea dejar un atributo vacio, presione 'Enter' cuando corresponda).\n");
-  obtener_nom_y_ap(nombre, apellido);
-  printf("Ingrese edad:\n>");
-  leer_dato(ed, isdigit);
-  if (!(strcmp(ed, "")))
-    edad = 0;
-  else
-    edad = abs(atoi(ed));
-  printf("Ingrese telefono:\n>");
-  leer_dato(tel, isdigit);
-  if (*nombre || *apellido || edad || *tel)
-    function(agenda, nombre, apellido, edad, tel);
-  else
-    printf("Algun atributo debe ser no vacio.\n");
 }
 
 // Imprime el mensaje inicial.
@@ -113,7 +86,7 @@ static void mensaje_inicial() {
 // Inicia el bucle de interaccion con el programa.
 void parser(Agenda agenda) {
   int accion = 1, n;
-  char nombre[LARGO_ATRIBUTO], apellido[LARGO_ATRIBUTO], tel[LARGO_ATRIBUTO], ruta[LARGO_RUTA], ord[LARGO_ATRIBUTO], ed[LARGO_ATRIBUTO];
+  char nombre[30], apellido[30], tel[30], ruta[100], ord[15], ed[10];
   unsigned edad;
 
   mensaje_inicial();
@@ -123,8 +96,10 @@ void parser(Agenda agenda) {
   while (accion != 13) {
     switch (accion) {
     case 1:                    // Buscar
-      obtener_nom_y_ap(nombre, apellido);
-
+      printf("Ingrese nombre:\n>");
+      leer_dato_no_vacio(nombre, isalpha_or_space);
+      printf("Ingrese apellido:\n>");
+      leer_dato_no_vacio(apellido, isalpha_or_space);
       Contacto *c1 = agenda_buscar(agenda, nombre, apellido);
       if (c1)
         contacto_imprimir((Contacto *) c1);
@@ -132,7 +107,10 @@ void parser(Agenda agenda) {
         printf("El contacto no se encuentra.\n");
       break;
     case 2:                    // Agregar
-      obtener_nom_y_ap(nombre, apellido);
+      printf("Ingrese nombre:\n>");
+      leer_dato_no_vacio(nombre, isalpha_or_space);
+      printf("Ingrese apellido:\n>");
+      leer_dato_no_vacio(apellido, isalpha_or_space);
       printf("Ingrese edad:\n>");
       edad = leer_edad();
       printf("Ingrese telefono:\n>");
@@ -140,11 +118,17 @@ void parser(Agenda agenda) {
       agenda_agregar(agenda, nombre, apellido, edad, tel);
       break;
     case 3:                    // Eliminar
-      obtener_nom_y_ap(nombre, apellido);
+      printf("Ingrese nombre:\n>");
+      leer_dato_no_vacio(nombre, isalpha_or_space);
+      printf("Ingrese apellido:\n>");
+      leer_dato_no_vacio(apellido, isalpha_or_space);
       agenda_eliminar(agenda, nombre, apellido);
       break;
     case 4:                    // Editar
-      obtener_nom_y_ap(nombre, apellido);
+      printf("Ingrese nombre:\n>");
+      leer_dato_no_vacio(nombre, isalpha_or_space);
+      printf("Ingrese apellido:\n>");
+      leer_dato_no_vacio(apellido, isalpha_or_space);
       Contacto *c2 = agenda_buscar(agenda, nombre, apellido);
       if (c2) {
         contacto_imprimir(c2);
@@ -160,7 +144,7 @@ void parser(Agenda agenda) {
       break;
     case 5:                    // Cargar
       printf("Ingrese ruta de entrada:\n>");
-      leer_cadena(ruta, LARGO_RUTA, stdin);
+      leer_cadena(ruta, 100, stdin);
       FILE *fpt1 = fopen(ruta, "r+");
       if (fpt1) {
         agenda_cargar(agenda, fpt1);
@@ -170,7 +154,7 @@ void parser(Agenda agenda) {
       break;
     case 6:                    // Guardar
       printf("Ingrese ruta de salida:\n>");
-      leer_cadena(ruta, LARGO_RUTA, stdin);
+      leer_cadena(ruta, 100, stdin);
       FILE *fpt2 = fopen(ruta, "w+");
       if (fpt2) {
         agenda_guardar(agenda, 0, fpt2);
@@ -185,19 +169,53 @@ void parser(Agenda agenda) {
       agenda_rehacer(agenda);
       break;
     case 9:                    // AND
-      and_or(agenda, nombre, apellido, ed, edad, tel, agenda_and);
+      printf
+          ("(Si desea dejar un atributo vacio, presione 'Enter' cuando corresponda).\n");
+      printf("Ingrese nombre:\n>");
+      leer_dato(nombre, isalpha_or_space);
+      printf("Ingrese apellido:\n>");
+      leer_dato(apellido, isalpha_or_space);
+      printf("Ingrese edad:\n>");
+      leer_dato(ed, isdigit);
+      if (!(strcmp(ed, "")))
+        edad = 0;
+      else
+        edad = abs(atoi(ed));
+      printf("Ingrese telefono:\n>");
+      leer_dato(tel, isdigit);
+      if (*nombre || *apellido || edad || *tel)
+        agenda_and(agenda, nombre, apellido, edad, tel);
+      else
+        printf("Algun atributo debe ser no vacio.\n");
       break;
     case 10:                   // OR
-      and_or(agenda, nombre, apellido, ed, edad, tel, agenda_or);
+      printf
+          ("(Si desea dejar un atributo vacio, presione 'Enter' cuando corresponda).\n");
+      printf("Ingrese nombre:\n>");
+      leer_dato(nombre, isalpha_or_space);
+      printf("Ingrese apellido:\n>");
+      leer_dato(apellido, isalpha_or_space);
+      printf("Ingrese edad:\n>");
+      leer_dato(ed, isdigit);
+      if (!(strcmp(ed, "")))
+        edad = 0;
+      else
+        edad = abs(atoi(ed));
+      printf("Ingrese telefono:\n>");
+      leer_dato(tel, isdigit);
+      if (*nombre || *apellido || edad || *tel)
+        agenda_or(agenda, nombre, apellido, edad, tel);
+      else
+        printf("Algun atributo debe ser no vacio.\n");
       break;
     case 11:                   // Guardar ordenado
       printf("Ingrese ruta de salida:\n>");
-      leer_cadena(ruta, LARGO_RUTA, stdin);
+      leer_cadena(ruta, 100, stdin);
       FILE *fpt3 = fopen(ruta, "w+");
       if (fpt3) {
         printf
             ("Ingrese nombre de atributo: (nombre,apellido,edad,telefono)\n>");
-        leer_cadena(ord, LARGO_ATRIBUTO, stdin);
+        leer_cadena(ord, 15, stdin);
         agenda_guardar(agenda, orden(ord), fpt3);
         fclose(fpt3);
       } else
