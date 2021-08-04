@@ -2,7 +2,6 @@
 #include "../head/agenda.h"
 #include "../head/contacto.h"
 #include "../head/parser.h"
-#include "../test/test.c"
 
 int main() {
   // Creo una agenda.
@@ -20,9 +19,6 @@ int main() {
 
   // Inicio el bucle principal del programa.
   parser(agenda);
-
-  // Descomentar para ver los casos de prueba.
-  //test(agenda);
 
   // Destruyo la agenda.
   agenda_destruir(agenda);
