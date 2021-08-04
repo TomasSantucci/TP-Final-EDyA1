@@ -67,4 +67,6 @@ unsigned contacto_hashear(Contacto * contacto);
 // Imprime por pantalla un contacto.
 void contacto_imprimir(Contacto * contacto);
 
+void contacto_imprimir_extra(Contacto *contacto, void *extra);
+
 #endif                          /* __CONTACTO_H__ */

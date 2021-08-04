@@ -143,3 +143,7 @@ void contacto_imprimir(Contacto * contacto) {
   printf("{%s, %s, %d, %s}\n", contacto->nombre, contacto->apellido,
          contacto->edad, contacto->telefono);
 }
+
+void contacto_imprimir_extra(Contacto *contacto, __attribute__((unused)) void *extra) {
+  contacto_imprimir(contacto);
+}

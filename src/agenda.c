@@ -351,7 +351,7 @@ void agenda_and(Agenda agenda, char *nombre, char *apellido, int edad,
     contacto_destruir(c);
   }
   // Imprimo y destruyo la lista obtenida
-  glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir, NULL);
+  glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir_extra, NULL);
   glist_destruir(lista, (FuncionDestructora) destr_falso);
 }
 
@@ -362,7 +362,7 @@ void agenda_or(Agenda agenda, char *nombre, char *apellido, int edad, char *tel)
   Contacto *c = contacto_crear(nombre, apellido, edad, tel);
   if (*nombre) {                // Si se dio un nombre, imprimo los que lo tengan
     lista = avl_buscar(agenda->nombre, c);
-    glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir, NULL);
+    glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir_extra, NULL);
   }
   if (*apellido) {              // Si se dio un apellido, imprimo los que lo tengan sin repetir lo anterior
     lista = avl_buscar(agenda->apellido, c);
@@ -370,7 +370,7 @@ void agenda_or(Agenda agenda, char *nombre, char *apellido, int edad, char *tel)
         glist_filtrar(lista, (Predicado) contacto_comparar_nombre,
                       (FuncionCopiadora) copia_falsa,
                       (FuncionDestructora) destr_falso, c, 0);
-    glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir, NULL);
+    glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir_extra, NULL);
     glist_destruir(lista, (FuncionDestructora) destr_falso);
   }
   if (edad) {                   // Si se dio una edad, imprimo los que la tengan sin repetir lo anterior
@@ -383,7 +383,7 @@ void agenda_or(Agenda agenda, char *nombre, char *apellido, int edad, char *tel)
         glist_filtrar(lista, (Predicado) contacto_comparar_apellido,
                       (FuncionCopiadora) copia_falsa,
                       (FuncionDestructora) destr_falso, c, 1);
-    glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir, NULL);
+    glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir_extra, NULL);
     glist_destruir(lista, (FuncionDestructora) destr_falso);
   }
   if (*tel) {                   // Si se dio un telefono, imprimo los que lo tengan sin repetir lo anterior
@@ -400,7 +400,7 @@ void agenda_or(Agenda agenda, char *nombre, char *apellido, int edad, char *tel)
         glist_filtrar(lista, (Predicado) contacto_comparar_edad,
                       (FuncionCopiadora) copia_falsa,
                       (FuncionDestructora) destr_falso, c, 1);
-    glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir, NULL);
+    glist_recorrer(lista, (FuncionVisitanteExtra) contacto_imprimir_extra, NULL);
     glist_destruir(lista, (FuncionDestructora) destr_falso);
   }
   contacto_destruir(c);
@@ -513,5 +513,5 @@ void agenda_suma_edades(Agenda agenda, int n) {
 // Imprime la agenda
 void agenda_imprimir(Agenda agenda) {
   avl_recorrer(agenda->nombre, AVL_RECORRIDO_IN,
-               (FuncionVisitanteExtra) contacto_imprimir, NULL);
+               (FuncionVisitanteExtra) contacto_imprimir_extra, NULL);
 }
