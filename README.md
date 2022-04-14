@@ -30,11 +30,6 @@ Guardar ordenado: Como tengo los contactos ordenados por cada atributo en arbole
 Buscar por suma de edades: Uso programación dinámica (bottom-up). Veo que suma puedo generar con el primer contacto, luego si agrego el segundo, y siguiendo asi hasta lograr la suma o llegar al ultimo contacto.
 
 
-## DIFICULTADES ENCONTRADAS
-La dificultad mas grande fue encontrar una forma de representar la agenda de manera que todas las acciones se realicen en un tiempo aceptable. Particularmente por AND y OR.
-Lo resolvi creando una estructura principal (tabla hash) con arboles avl auxiliares que mantienen los contactos ordenados y facil de buscar por atributos
-
-
 ## COMPILACION E INVOCACION DEL PROGRAMA
 Ejecutar make para compilarlo.
 
@@ -42,9 +37,6 @@ Ejecutar bin/proyecto para invocarlo.
 
 Ejecutar make test para usar valgrind.
 
-
-## BIBLIOGRAFIA CONSULTADA
-Slides y plantillas de estructuras de la catedra.
 
 ## OBSERVACION
 Para ejecutar los casos de prueba, descomentar la funcion test en el archivo main.c
